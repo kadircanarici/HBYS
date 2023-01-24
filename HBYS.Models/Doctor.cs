@@ -11,8 +11,10 @@ namespace HBYS.Models
     public class Doctor:ModelBase
     {
         public string? Name { get; set; }
-        public virtual Patient Patient { get; set; }
+
+        
         public virtual Clinic Clinic { get; set; }
+        public Guid ClinicId { get; set; }
         
     }
 }

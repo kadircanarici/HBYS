@@ -23,7 +23,6 @@ namespace HBYS.Data
         {
            
 
-            modelBuilder.Entity<Clinic>().Navigation(c => c.Doctor).AutoInclude();
             modelBuilder.Entity<Patient>().Navigation(p=> p.Doctor).AutoInclude();
             
         }

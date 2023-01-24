@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HBYS.Data\HBYS.Data.csproj" />
+    <ProjectReference Include="..\HBYS.Models\HBYS.Models.csproj" />
+  </ItemGroup>
+
+</Project>

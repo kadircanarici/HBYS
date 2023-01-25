@@ -11,4 +11,9 @@
     <ProjectReference Include="..\HBYS.Models\HBYS.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+    <Folder Include="Concrete\" />
+  </ItemGroup>
+
 </Project>

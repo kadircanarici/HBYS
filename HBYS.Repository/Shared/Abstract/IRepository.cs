@@ -23,5 +23,6 @@ namespace HBYS.Repository.Shared.Abstract
         T GetFirstOrDefault(Expression<Func<T, bool>> predicate);
 
         T Update(T entity);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate);
     }
 }

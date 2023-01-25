@@ -1,5 +1,5 @@
 ﻿using HBYS.Models;
-using HBYS.Repository.Abstract;
+using HBYS.Repository.Shared.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +11,12 @@ namespace HBYS.Repository.Shared.Abstract
     public interface IUnitOfWork
     {
         IRepository<User> User { get; }
-        IPatientRepository Patient { get; }
+        IRepository <Patient> Patient { get; }
         IRepository<Clinic> Clinic { get; }
-        IDoctorRepository Doctor { get; }
-        
-       
-      
-       
+        IRepository <Doctor> Doctor { get; }
+
+
+        void Save();
+
     }
 }

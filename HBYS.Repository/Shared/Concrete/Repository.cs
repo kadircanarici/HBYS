@@ -40,8 +40,15 @@ namespace HBYS.Repository.Shared.Concrete
         {
 
             return _dbSet.Where(t => t.IsDeleted == false && t.IsActive == true).ToList();
-        }
 
+
+
+        }
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate)
+        {
+
+            return _dbSet.Where(predicate).ToList();
+        }
         public T GetFirstOrDefault(Expression<Func<T, bool>> predicate)
         {
             IQueryable<T> result = _dbSet.Where(predicate);

@@ -1,7 +1,5 @@
 ﻿using HBYS.Data;
 using HBYS.Models;
-using HBYS.Repository.Abstract;
-using HBYS.Repository.Concrete;
 using HBYS.Repository.Shared.Abstract;
 using System;
 using System.Collections.Generic;
@@ -15,23 +13,22 @@ namespace HBYS.Repository.Shared.Concrete
     {
         private readonly ApplicationDbContext _db;
 
+        public IRepository<Clinic> Clinic { get; private set; }
+
+        public IRepository<Doctor> Doctor { get; private set; }
+
+        public IRepository<User> User { get; private set; }
+
+        public IRepository<Patient> Patient { get; private set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
 
             User = new Repository<User>(_db);
-            Clinic= new Repository<Clinic>(_db);
-            Doctor= new DoctorRepository(_db);
-            Patient = new PatientRepository(_db);
+            Clinic = new Repository<Clinic>(_db);
+            Doctor = new Repository<Doctor>(_db);
+            Patient = new Repository<Patient>(_db);
         }
-
-        public IRepository<Clinic> Clinic { get; private set; }
-
-        public IDoctorRepository Doctor { get; private set; }
-
-        public IRepository<User> User { get; private set; }
-
-        public IPatientRepository Patient { get; private set; }
 
         public void Save()
         {

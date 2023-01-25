@@ -70,7 +70,7 @@
                 </button>
             </div>
             <div class="modal-body">
-               
+
 
                 <div class="mb-3 row">
                     <label for="example-text-input" class="col-md-4 col-form-label">Klinik</label>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
 
-                 <div class="mb-3 row">
+                <div class="mb-3 row">
                     <label for="example-text-input" class="col-md-4 col-form-label">TC</label>
                     <div class="col-md-8">
                         <input class="form-control" type="text" placeholder="" id="txtTC">
@@ -117,7 +117,7 @@
                     </div>
                 </div>
 
-               
+
 
 
             </div>
@@ -138,12 +138,12 @@
     <script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
     <th>TC</th>
-                            <th>Hasta Adı</th>
-                            <th>Hastanın Telefon No</th>
-                            <th>Adres</th>
-                            @*<th>Klinik Adı</th>*@
-                            <th>Doktor Adı</th>
-                            <th>İşlemler</th>
+    <th>Hasta Adı</th>
+    <th>Hastanın Telefon No</th>
+    <th>Adres</th>
+    <th>Klinik Adı</th>
+    <th>Doktor Adı</th>
+    <th>İşlemler</th>
 
     <script type="text/javascript">
         var dataTable = $("#datatable-buttons").DataTable(
@@ -156,7 +156,7 @@
                     { data: 'name' },
                     { data: 'phone' },
                     { data: 'address' },
-                    //{ data: 'clinic.name' },
+                    { data: 'doctor.clinic.name' },
                     { data: 'doctor.name' },
 
 
@@ -229,15 +229,15 @@
                     $("#ddlDoctor").empty();
                     $("#ddlDoctor").append(`<option value="0">Lütfen seçiniz</option> `)
                     
-                    for (var item in res) {
-                        console.log(item);
+                    for (var item of res) {
+                        console.log(item.name);
 
                         if (item.id == res.id) {
                             $("#ddlDoctor").append(new Option(item.name, item.id, false, true));
                         }
                         else {
                             $("#ddlDoctor").append(new Option(item.name, item.id));
-                            console.log(res.id +"ve "+item.id);
+
                         }
                     }
                 }
@@ -258,8 +258,8 @@
 
                 doctorId: $("#ddlDoctor option:selected").val(),
 
-                
-                
+
+
             }
 
             $.ajax({
@@ -310,16 +310,17 @@
 
 
             var veri = { id: id }
-            //$("#txtVideoAdı,#txtVideoAcıklama,#txtVideoURL,#").val('');
+
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("GetByID","Patient")",
                 data: veri,
                 success: function (res) {
 
-                 
-                    ddlDoctorDoldur(res.doctorId);
 
+                    console.log(res);
+                    $("#ddlDoctor").append(new Option(res.doctor.name, res.doctorId, false, true))
+                    ddlClinicDoldur(res.doctor.clinicId);
 
 
 

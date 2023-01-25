@@ -10,13 +10,12 @@ using System.Threading.Tasks;
 
 namespace HBYS.Repository.Concrete
 {
-    public class PatientRepository : Repository<Patient>, IPatientRepository
+    public class DoctorRepository : Repository<Doctor>, IDoctorRepository
     {
         private readonly ApplicationDbContext _db;
-        public PatientRepository(ApplicationDbContext db) : base(db)
+        public DoctorRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
-
     }
 }

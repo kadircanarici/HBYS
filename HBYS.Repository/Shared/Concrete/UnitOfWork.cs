@@ -21,13 +21,13 @@ namespace HBYS.Repository.Shared.Concrete
 
             User = new Repository<User>(_db);
             Clinic= new Repository<Clinic>(_db);
-            Doctor= new Repository<Doctor>(_db);
+            Doctor= new DoctorRepository(_db);
             Patient = new PatientRepository(_db);
         }
 
         public IRepository<Clinic> Clinic { get; private set; }
 
-        public IRepository<Doctor> Doctor { get; private set; }
+        public IDoctorRepository Doctor { get; private set; }
 
         public IRepository<User> User { get; private set; }
 

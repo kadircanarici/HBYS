@@ -21,8 +21,8 @@ namespace HBYS.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
 
+            modelBuilder.Entity<Doctor>().Navigation(d => d.Clinic).AutoInclude();
             modelBuilder.Entity<Patient>().Navigation(p=> p.Doctor).AutoInclude();
             
         }

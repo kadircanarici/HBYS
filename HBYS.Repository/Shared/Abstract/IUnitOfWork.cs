@@ -10,9 +10,13 @@ namespace HBYS.Repository.Shared.Abstract
 {
     public interface IUnitOfWork
     {
-        IRepository<Clinic> Clinic { get; }
-        IRepository<Doctor> Doctor { get; }
         IRepository<User> User { get; }
         IPatientRepository Patient { get; }
+        IRepository<Clinic> Clinic { get; }
+        IDoctorRepository Doctor { get; }
+        
+       
+      
+       
     }
 }

@@ -12,7 +12,7 @@ namespace HBYS.Models
     {
         public int TC { get; set; }
         public string? Name { get; set; }
-        public string? Tel { get; set; }
+        public string? Phone { get; set; }
         public string? Address { get; set; }
         public Guid DoctorId { get; set; }
         public virtual Doctor Doctor { get; set; }

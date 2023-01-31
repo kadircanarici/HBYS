@@ -1,0 +1,273 @@
+﻿@section Styles
+    {
+    <!-- DataTables -->
+    <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+    <!-- Responsive datatable examples -->
+    <link href="~/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-flex align-items-center justify-content-between">
+            <h4 class="mb-0">Doktorlar</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">-</a></li>
+                    <li class="breadcrumb-item active">-</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Doktorlar</h4>
+                <button type="button" id="yeniKayit" class="btn btn-success waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#modal">Yeni Ekle</button>
+                <p class="card-title-desc">
+                    Bu ekranda doktor ile ilgili işlemleri yapabilirsiniz.
+                </p>
+
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Klinik</th>
+                            <th>Doktor</th>
+
+
+                            <th>Eklenme Tarihi</th>
+                            <th>İşlemler</th>
+
+                        </tr>
+                    </thead>
+
+
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div> <!-- end col -->
+</div> <!-- end row -->
+
+
+
+
+<div id="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Doktor Ekleme</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+
+            <div class="mb-3 row">
+                <label for="example-text-input" class="col-md-4 col-form-label">Klinik</label>
+                <div class="col-md-8" id="ddlKlinix">
+                    <select id="ddlKlinik" class="form-select">
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="mb-3 row">
+                    <label for="example-text-input" class="col-md-4 col-form-label">Doktor</label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="text" placeholder="" id="txtDoktorAdı">
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light waves-effect" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" id="btnEkle" class="btn btn-primary waves-effect waves-light">Ekle</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@section Scripts{
+    <!-- Required datatable js -->
+    <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Responsive examples -->
+    <script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+
+
+
+    <script type="text/javascript">
+        var dataTable = $("#datatable-buttons").DataTable(
+            {
+                lengthChange: !1,
+                buttons: ["copy", "excel", "pdf", "colvis"],
+                ajax: "@Url.Action("GetAllDoctors","Doctor")",
+                columns: [
+
+                    { data: 'clinic.name' },
+                    { data: 'name' },
+
+
+                    {
+                        data: 'dateCreated', render: function (data, type) { return new Date(data).toLocaleDateString(); }
+                    },
+                    {
+                        data: 'id', render: function (data, type) {
+                            return `<a onClick="deleteDoktor('${data}')" class="btn btn-danger"> Sil </a> <a id"editDoktor" onClick="editDoktor('${data}')" class="btn btn-info">Düzenle</a>`;
+                        }
+                    }
+
+                ]
+            }
+        );
+
+        $("#yeniKayit").click(function () {
+            $("#txtDoktorAdı").val(),
+                $(".form-select option:selected").val(),
+                $('#ddlKlinik option[value="0"]').attr('selected', 'selected');
+
+            $("#btnEkle").off();
+            $("#btnEkle").click(createDoktor);
+            $("#btnEkle").text("Ekle");
+            ddlDoldur();
+
+
+
+        });
+        function ddlDoldur() {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetAll","Clinic")",
+                success: function (res) {
+                    console.log(res);
+                    $("#ddlKlinik").empty();
+                    $("#ddlKlinik").append(`<option value="0">Select</option> `)
+                    for (item of res.data) {
+
+                        $("#ddlKlinik").append(new Option(item.name, item.id))
+                    }
+                }
+            });
+        }
+        function createDoktor() {
+
+
+            var veri = {
+                name: $("#txtDoktorAdı").val(),
+
+                clinicId: $(".form-select option:selected").val()
+
+            }
+
+            $.ajax({
+                type: "POST",
+                data: veri,
+                url: "@Url.Action("Add","Doctor")",
+                success: function (res) {
+                    $("#modal").modal('hide');
+                    toastr.success('Yeni Doktor başarıyla eklenmiştir.', 'Başarılı !');
+                    dataTable.ajax.reload();
+                    $(".form-select option:selected").val(0);
+                    $("#txtDoktorAdı").val('');
+
+                }
+            });
+
+        };
+
+        function deleteDoktor(id) {
+
+            Swal.fire({
+                title: 'Silmek istediginizden emin misiniz ?',
+                showCancelButton: true,
+                confirmButtonText: 'Evet'
+
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+
+                    var veri = { id: id }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("Delete","Doctor")",
+                        data: veri,
+                        success: function (res) {
+                            dataTable.ajax.reload();
+
+                        }
+                    });
+
+                    Swal.fire('Silindi!', '', 'success')
+                }
+            });
+        }
+        function editDoktor(id) {
+            $("#editDoktor").off();
+            $("#modal").modal('show');
+            ddlDoldur();
+
+
+            var veri = { id: id }
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetByID","Doctor")",
+                data: veri,
+                success: function (res) {
+                    console.log(res.id);
+                    $("#txtDoktorAdı").val(res.name);
+
+
+                    $("#ddlKlinik option[value='" + res.clinicId + "']").attr('selected', 'selected');
+
+                    console.log($("#ddlKlinik option[value='" + res.id + "']"));
+
+                    $("#btnEkle").text("Güncelle");
+                    $("#btnEkle").off();
+                    $("#btnEkle").click(function () {
+                        veri =
+                        {
+                            id: id,
+                            name: $("#txtDoktorAdı").val(),
+
+
+                            clinicId: $(".form-select option:selected").val(),
+
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Edit","Doctor")",
+                            data: veri,
+                            success: function (res) {
+                                dataTable.ajax.reload();
+                                $("#modal").modal('hide');
+                                toastr.success(' Doktor başarıyla düzenlenmiştir.', 'Düzenlendi !');
+
+                            }
+                        })
+
+
+                    })
+
+                }
+            })
+        }
+
+
+
+    </script>
+
+}

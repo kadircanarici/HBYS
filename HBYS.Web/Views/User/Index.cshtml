@@ -9,12 +9,12 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box d-flex align-items-center justify-content-between">
-            <h4 class="mb-0">Ücret Sayfası</h4>
+            <h4 class="mb-0">Hasta Kayıt Sayfası</h4>
 
             <div class="page-title-right">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Araç</a></li>
-                    <li class="breadcrumb-item active">Ücret</li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Hasta Kayıt</a></li>
+                    <li class="breadcrumb-item active">HBYS</li>
                 </ol>
             </div>
 
@@ -66,7 +66,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">Araç için Ücret Ekleme</h5>
+                <h5 class="modal-title" id="myModalLabel">Hasta Kayıt</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                 </button>
             </div>
@@ -138,13 +138,6 @@
     <script src="~/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
     <script src="~/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
 
-    <th>TC</th>
-    <th>Hasta Adı</th>
-    <th>Hastanın Telefon No</th>
-    <th>Adres</th>
-    <th>Klinik Adı</th>
-    <th>Doktor Adı</th>
-    <th>İşlemler</th>
 
     <script type="text/javascript">
         var dataTable = $("#datatable-buttons").DataTable(
@@ -322,6 +315,30 @@
                 }
             });
         }
+        $("#txtTC").on("change", function () {
+            var tc = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetByTC","Patient")",
+                data: { tc: tc },
+                success: function (res) {
+                    if (res) {
+                        
+                        $("#txtName").val(res.name);
+                        $("#txtPhone").val(res.phone);
+                        $("#txtAddress").val(res.address);
+                       
+                    } else {
+                        
+                        $("#txtName").val("");
+                        $("#txtPhone").val("");
+                        $("#txtAddress").val("");
+                       
+                    }
+                }
+            });
+        });
+
 
         function editHasta(id) {
             $("#editHasta").off();

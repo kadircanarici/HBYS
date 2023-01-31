@@ -65,6 +65,15 @@ namespace HBYS.Web.Controllers
             Patient patient = unitOfWork.Patient.GetFirstOrDefault(m => m.Id == id);
             return Json(patient);
         }
+        public IActionResult GetByTC(string tc)
+        {
+            Patient patient = unitOfWork.Patient.GetFirstOrDefault(x => x.TC == tc);
+            if (patient != null)
+            {
+                return Json(patient);
+            }
+            return Json(null);
+        }
 
     }
 }

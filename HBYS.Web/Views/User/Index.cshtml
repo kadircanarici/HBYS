@@ -327,12 +327,19 @@
                         $("#txtName").val(res.name);
                         $("#txtPhone").val(res.phone);
                         $("#txtAddress").val(res.address);
+                        $("#txtName").prop("disabled", true);
+                        $("#txtPhone").prop("disabled", true);
+                        $("#txtAddress").prop("disabled", true);
+
                        
                     } else {
                         
                         $("#txtName").val("");
                         $("#txtPhone").val("");
                         $("#txtAddress").val("");
+                        $("#txtName").prop("disabled", false);
+                        $("#txtPhone").prop("disabled", false);
+                        $("#txtAddress").prop("disabled", false);
                        
                     }
                 }

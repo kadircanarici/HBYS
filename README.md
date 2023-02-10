@@ -10,6 +10,8 @@
 
 •Bu işlemleri yaptıgınızda programa rahatlıkla erişebilirsiniz.
 
+•Uygulamada bulunan sayfalar : Klinik , Doktor , Hasta Kayıt.
+
 
 <img src="https://user-images.githubusercontent.com/118361987/218140443-aeea5f43-6433-4eb8-8bf0-d57ef2f71069.jpg" alt="Resim">
 
